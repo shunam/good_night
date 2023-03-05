@@ -47,4 +47,7 @@ group :development do
   # gem "spring"
 end
 
-gem 'simplecov', require: false, group: :test
+group :test do
+  gem 'database_cleaner-active_record'
+  gem 'simplecov', require: false
+end

@@ -10,12 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_05_044332) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_05_085812) do
   create_table "clock_times", force: :cascade do |t|
     t.integer "user_id"
     t.datetime "clock_in"
     t.datetime "clock_out"
     t.integer "sleep_length"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "friendships", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "friend_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
