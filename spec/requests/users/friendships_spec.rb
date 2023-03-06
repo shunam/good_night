@@ -12,7 +12,7 @@ RSpec.describe "Users::Friendships", type: :request do
 
     describe "GET /follow" do
       it "returns http success" do
-        post "/users/#{@user.id}/friendships/follow", params: @params
+        post "/v1/users/#{@user.id}/friendships/follow", params: @params
         expect(response).to have_http_status(:success)
         
         data = JSON.parse(response.body)['data']
@@ -27,7 +27,7 @@ RSpec.describe "Users::Friendships", type: :request do
       end
 
       it "returns error when friend_id is empty" do
-        post "/users/#{@user.id}/friendships/follow"
+        post "/v1/users/#{@user.id}/friendships/follow"
         expect(response).to have_http_status(404)
 
         errors = JSON.parse(response.body)['errors']
@@ -35,7 +35,7 @@ RSpec.describe "Users::Friendships", type: :request do
       end
 
       it "return error when user not found" do
-        post "/users/0/friendships/follow"
+        post "/v1/users/0/friendships/follow"
         expect(response).to have_http_status(404)
 
         errors = JSON.parse(response.body)['errors']
@@ -43,7 +43,7 @@ RSpec.describe "Users::Friendships", type: :request do
       end
 
       it "return error when friend not found" do
-        post "/users/#{@user.id}/friendships/follow", params: {friend_id: 0}
+        post "/v1/users/#{@user.id}/friendships/follow", params: {friend_id: 0}
         expect(response).to have_http_status(404)
 
         errors = JSON.parse(response.body)['errors']
@@ -55,7 +55,7 @@ RSpec.describe "Users::Friendships", type: :request do
       it "returns http success" do
         @user.friends << @friend
 
-        delete "/users/#{@user.id}/friendships/unfollow", params: @params
+        delete "/v1/users/#{@user.id}/friendships/unfollow", params: @params
         expect(response).to have_http_status(:success)
         
         data = JSON.parse(response.body)['data']
@@ -69,7 +69,7 @@ RSpec.describe "Users::Friendships", type: :request do
       end
 
       it "returns error if empty params" do
-        delete "/users/#{@user.id}/friendships/unfollow"
+        delete "/v1/users/#{@user.id}/friendships/unfollow"
         expect(response).to have_http_status(404)
 
         errors = JSON.parse(response.body)['errors']
@@ -77,7 +77,7 @@ RSpec.describe "Users::Friendships", type: :request do
       end
 
       it "return error when user not found" do
-        delete "/users/0/friendships/unfollow"
+        delete "/v1/users/0/friendships/unfollow"
         expect(response).to have_http_status(404)
 
         errors = JSON.parse(response.body)['errors']
@@ -85,7 +85,7 @@ RSpec.describe "Users::Friendships", type: :request do
       end
 
       it "return error when friend not found" do
-        delete "/users/#{@user.id}/friendships/unfollow", params: {friend_id: 0}
+        delete "/v1/users/#{@user.id}/friendships/unfollow", params: {friend_id: 0}
         expect(response).to have_http_status(404)
 
         errors = JSON.parse(response.body)['errors']
@@ -93,7 +93,7 @@ RSpec.describe "Users::Friendships", type: :request do
       end
 
       it "return error when friendship not found" do
-        delete "/users/#{@user.id}/friendships/unfollow", params: @params
+        delete "/v1/users/#{@user.id}/friendships/unfollow", params: @params
         expect(response).to have_http_status(404)
 
         errors = JSON.parse(response.body)['errors']

@@ -21,7 +21,7 @@ RSpec.describe "Users::ClockIns", type: :request do
         end
         ClockTime.upsert_all(clock_times)
 
-        get "/users/#{@user.id}/clock_ins"
+        get "/v1/users/#{@user.id}/clock_ins"
         expect(response).to have_http_status(:success)
 
         data = JSON.parse(response.body)['data']
@@ -46,7 +46,7 @@ RSpec.describe "Users::ClockIns", type: :request do
       end
 
       it "returns http success" do
-        post "/users/#{@user.id}/clock_ins", params: @params
+        post "/v1/users/#{@user.id}/clock_ins", params: @params
         expect(response).to have_http_status(:success)
 
         data = JSON.parse(response.body)['data']
@@ -60,7 +60,7 @@ RSpec.describe "Users::ClockIns", type: :request do
       end
 
       it "return error when user not found" do
-        post "/users/0/clock_ins", params: @params
+        post "/v1/users/0/clock_ins", params: @params
         expect(response).to have_http_status(404)
 
         errors = JSON.parse(response.body)['errors']
@@ -68,7 +68,7 @@ RSpec.describe "Users::ClockIns", type: :request do
       end
 
       it "return error when clock in is empty" do
-        post "/users/#{@user.id}/clock_ins"
+        post "/v1/users/#{@user.id}/clock_ins"
 
         expect(response).to have_http_status(400)
 

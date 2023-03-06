@@ -23,7 +23,7 @@ RSpec.describe "Users::SleepRecords", type: :request do
 
     describe "GET /index" do
       it "returns http success" do
-        get "/users/#{@user.id}/sleep_records"
+        get "/v1/users/#{@user.id}/sleep_records"
         expect(response).to have_http_status(:success)
 
         data = JSON.parse(response.body)['data']
@@ -46,7 +46,7 @@ RSpec.describe "Users::SleepRecords", type: :request do
       end
 
       it "return error when user not found" do
-        get "/users/0/sleep_records"
+        get "/v1/users/0/sleep_records"
         expect(response).to have_http_status(404)
 
         errors = JSON.parse(response.body)['errors']

@@ -21,7 +21,7 @@ RSpec.describe "Users::ClockOuts", type: :request do
         end
         ClockTime.upsert_all(clock_times)
 
-        get "/users/#{@user.id}/clock_outs"
+        get "/v1/users/#{@user.id}/clock_outs"
         expect(response).to have_http_status(:success)
 
         data = JSON.parse(response.body)['data']
@@ -48,7 +48,7 @@ RSpec.describe "Users::ClockOuts", type: :request do
       end
 
       it "returns http success" do
-        patch "/users/#{@user.id}/clock_outs", params: @params
+        patch "/v1/users/#{@user.id}/clock_outs", params: @params
         expect(response).to have_http_status(:success)
 
         data = JSON.parse(response.body)['data']
@@ -63,7 +63,7 @@ RSpec.describe "Users::ClockOuts", type: :request do
       end
 
       it "return error when user not found" do
-        patch "/users/0/clock_outs", params: @params
+        patch "/v1/users/0/clock_outs", params: @params
         expect(response).to have_http_status(404)
 
         errors = JSON.parse(response.body)['errors']
@@ -71,7 +71,7 @@ RSpec.describe "Users::ClockOuts", type: :request do
       end
 
       it "return error when clock time ID and clock out is empty" do
-        patch "/users/#{@user.id}/clock_outs"
+        patch "/v1/users/#{@user.id}/clock_outs"
         expect(response).to have_http_status(400)
 
         errors = JSON.parse(response.body)['errors']
@@ -81,7 +81,7 @@ RSpec.describe "Users::ClockOuts", type: :request do
       it "return error when clock out is not empty in last clock in" do
         ClockTime.create(user_id: @user.id, clock_in: '2023-03-06 20:50:30', clock_out: '2023-03-06 21:50:30')
 
-        patch "/users/#{@user.id}/clock_outs", params: @params
+        patch "/v1/users/#{@user.id}/clock_outs", params: @params
         expect(response).to have_http_status(400)
 
         errors = JSON.parse(response.body)['errors']
