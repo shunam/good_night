@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     patch ':user_id/clock_outs', to: 'clock_outs#update'
     post ':user_id/friendships/follow', to: 'friendships#follow'
     delete ':user_id/friendships/unfollow', to: 'friendships#unfollow'
+    get ':user_id/sleep_records', to: 'sleep_records#index'
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

@@ -2,7 +2,9 @@ class Users::ClockInsController < ApplicationController
   before_action :find_user
 
   def index
-    clock_times = ClockTime.where(user_id: @user.id).where.not(clock_in: nil)
+    clock_times = ClockTime.order(created_at: :desc)
+                           .where(user_id: @user.id)
+                           .where.not(clock_in: nil)
     render json: ClockTimeSerializer.new(clock_times).serialized_json
   end
 
