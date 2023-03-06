@@ -5,7 +5,14 @@ class Users::ClockInsController < ApplicationController
     clock_times = ClockTime.order(created_at: :desc)
                            .where(user_id: @user.id)
                            .where.not(clock_in: nil)
-    render json: ClockTimeSerializer.new(clock_times).serializable_hash.to_json
+                           .page(clock_time_params[:page])
+    render json: ClockTimeSerializer.new(clock_times, 
+      generate_links(
+        clock_times, 
+        users_clock_ins_url(@user.id),
+        clock_time_params[:page].to_i
+      )
+    ).serializable_hash.to_json
   end
 
   def create
@@ -29,7 +36,7 @@ class Users::ClockInsController < ApplicationController
     # with per-user checking of permissible attributes.
     
     def clock_time_params
-      params.permit(:clock_in, :clock_out)
+      params.permit(:clock_in, :clock_out, :page)
     end
 
     def find_user

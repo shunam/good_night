@@ -25,15 +25,15 @@ RSpec.describe "Users::ClockOuts", type: :request do
         expect(response).to have_http_status(:success)
 
         data = JSON.parse(response.body)['data']
-        expect(data.size).to eq(20)
+        expect(data.size).to eq(10)
 
-        last_data = data[19]
-        expect(last_data['id']).to eq('20')
+        last_data = data[9]
+        expect(last_data['id']).to eq('10')
 
         time = @time.utc
         attributes = last_data['attributes']
-        expect(attributes['clock_in'].to_time.strftime(@strftime)).to eq((time - 1.seconds).strftime(@strftime))
-        expect(attributes['clock_out'].to_time.strftime(@strftime)).to eq(time.strftime(@strftime))
+        expect(attributes['clock_in'].to_time.strftime(@strftime)).to eq((time - 11.seconds).strftime(@strftime))
+        expect(attributes['clock_out'].to_time.strftime(@strftime)).to eq((time - 10.seconds).strftime(@strftime))
         expect(attributes['sleep_length']).to eq(1)
       end
     end

@@ -3,8 +3,16 @@ class Users::ClockOutsController < ApplicationController
   before_action :validate_presence_id_or_clock_out, except: :index
 
   def index
-    clock_times = ClockTime.where(user_id: @user.id).where.not(clock_out: nil)
-    render json: ClockTimeSerializer.new(clock_times).serializable_hash.to_json
+    clock_times = ClockTime.where(user_id: @user.id)
+                           .where.not(clock_out: nil)
+                           .page(clock_time_params[:page])
+    render json: ClockTimeSerializer.new(clock_times, 
+      generate_links(
+        clock_times,
+        users_clock_outs_url(@user.id),
+        clock_time_params[:page].to_i
+      )
+    ).serializable_hash.to_json
   end
 
   def update
@@ -34,7 +42,7 @@ class Users::ClockOutsController < ApplicationController
     # with per-user checking of permissible attributes.
     
     def clock_time_params
-      params.permit(:id, :clock_out)
+      params.permit(:id, :clock_out, :page)
     end
 
     def find_user

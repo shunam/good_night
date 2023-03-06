@@ -22,4 +22,17 @@ class ApplicationController < ActionController::API
     data = { errors: { code: code, details: Array.wrap(messages) } }
     render json: data, status: code
   end
+
+  def generate_links(record, url, current_page)
+    options = {links: {}}
+    if current_page.blank? or current_page < 2
+      options[:links][:next] = url + '?page=2'
+    elsif current_page >= record.total_pages
+      options[:links][:prev] = "#{url}?page=#{current_page - 1}"
+    else
+      options[:links][:prev] = "#{url}?page=#{current_page - 1}"
+      options[:links][:next] = "#{url}?page=#{current_page + 1}"
+    end
+    options
+  end
 end

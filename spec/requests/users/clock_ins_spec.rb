@@ -9,9 +9,9 @@ RSpec.describe "Users::ClockIns", type: :request do
     end
 
     describe "GET /index" do
-      it "returns http success" do
+      before(:each) do
         clock_times = []
-        (1..20).to_a.reverse.each do |x|
+        (1..30).to_a.reverse.each do |x|
           clock_times << {
             clock_in: (@time - x.seconds),
             clock_out: (@time - (x-1).seconds),
@@ -20,21 +20,69 @@ RSpec.describe "Users::ClockIns", type: :request do
           }
         end
         ClockTime.upsert_all(clock_times)
+      end
 
+      it "returns http success" do
         get "/v1/users/#{@user.id}/clock_ins"
         expect(response).to have_http_status(:success)
 
         data = JSON.parse(response.body)['data']
-        expect(data.size).to eq(20)
+        expect(data.size).to eq(10)
 
-        last_data = data[19]
+        last_data = data[9]
+        expect(last_data['id']).to eq('10')
+
+        time = @time.utc
+        attributes = last_data['attributes']
+        expect(attributes['clock_in'].to_time.strftime(@strftime)).to eq((time - 21.seconds).strftime(@strftime))
+        expect(attributes['clock_out'].to_time.strftime(@strftime)).to eq((time - 20.seconds).strftime(@strftime))
+        expect(attributes['sleep_length']).to eq(1)
+
+        links = JSON.parse(response.body)['links']
+        expect(links['next']).to eq('http://www.example.com/v1/users/1/clock_ins?page=2')
+        expect(links['prev']).to eq(nil)
+      end
+
+      it "returns http success for pages 2" do
+        get "/v1/users/#{@user.id}/clock_ins?page=2"
+        expect(response).to have_http_status(:success)
+
+        data = JSON.parse(response.body)['data']
+        expect(data.size).to eq(10)
+
+        last_data = data[9]
         expect(last_data['id']).to eq('20')
+
+        time = @time.utc
+        attributes = last_data['attributes']
+        expect(attributes['clock_in'].to_time.strftime(@strftime)).to eq((time - 11.seconds).strftime(@strftime))
+        expect(attributes['clock_out'].to_time.strftime(@strftime)).to eq((time - 10.seconds).strftime(@strftime))
+        expect(attributes['sleep_length']).to eq(1)
+
+        links = JSON.parse(response.body)['links']
+        expect(links['next']).to eq('http://www.example.com/v1/users/1/clock_ins?page=3')
+        expect(links['prev']).to eq('http://www.example.com/v1/users/1/clock_ins?page=1')
+      end
+
+      it "returns http success for pages 3" do
+        get "/v1/users/#{@user.id}/clock_ins?page=3"
+        expect(response).to have_http_status(:success)
+
+        data = JSON.parse(response.body)['data']
+        expect(data.size).to eq(10)
+
+        last_data = data[9]
+        expect(last_data['id']).to eq('30')
 
         time = @time.utc
         attributes = last_data['attributes']
         expect(attributes['clock_in'].to_time.strftime(@strftime)).to eq((time - 1.seconds).strftime(@strftime))
         expect(attributes['clock_out'].to_time.strftime(@strftime)).to eq(time.strftime(@strftime))
         expect(attributes['sleep_length']).to eq(1)
+
+        links = JSON.parse(response.body)['links']
+        expect(links['next']).to eq(nil)
+        expect(links['prev']).to eq('http://www.example.com/v1/users/1/clock_ins?page=2')
       end
     end
 

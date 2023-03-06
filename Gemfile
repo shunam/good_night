@@ -57,3 +57,5 @@ end
 # Change to jsonapi-serializer
 gem 'jsonapi-serializer'
 
+# Pagination gem
+gem 'kaminari'
