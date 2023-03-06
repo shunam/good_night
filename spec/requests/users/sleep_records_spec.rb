@@ -14,6 +14,7 @@ RSpec.describe "Users::SleepRecords", type: :request do
       @user.friends << @friend4
 
       ClockTime.create(user_id: @friend1.id, clock_in: '2023-03-01 20:00:00', clock_out: '2023-03-02 04:00:00')
+      ClockTime.create(user_id: @friend1.id, clock_in: '2023-01-01 20:00:00', clock_out: '2023-01-02 04:00:00', created_at: '2023-01-02 04:00:00')
       ClockTime.create(user_id: @friend2.id, clock_in: '2023-03-01 20:00:00', clock_out: '2023-03-02 00:00:00')
       ClockTime.create(user_id: @friend3.id, clock_in: '2023-03-01 18:00:00', clock_out: '2023-03-02 04:00:00')
       ClockTime.create(user_id: @friend4.id, clock_in: '2023-03-01 16:00:00', clock_out: '2023-03-02 04:00:00')

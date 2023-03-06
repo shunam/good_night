@@ -16,7 +16,7 @@ class User < ApplicationRecord
     ClockTime.select('user_id, sum(sleep_length) as total_sleep_length')
              .group(:user_id)
              .order('total_sleep_length desc')
-             .where(user_id: friend_ids)
+             .where('user_id in (?) and created_at >= ?', friend_ids, Time.now - 7.days)
              .where.not(clock_in: nil, clock_out: nil)
   end
 end
