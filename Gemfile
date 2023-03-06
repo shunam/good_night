@@ -51,3 +51,6 @@ group :test do
   gem 'database_cleaner-active_record'
   gem 'simplecov', require: false
 end
+
+# Use Fast JSON API to struct the json
+gem 'fast_jsonapi'

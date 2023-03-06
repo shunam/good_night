@@ -80,6 +80,8 @@ GEM
     diff-lcs (1.5.0)
     docile (1.4.0)
     erubi (1.12.0)
+    fast_jsonapi (1.5)
+      activesupport (>= 4.2)
     globalid (1.1.0)
       activesupport (>= 5.0)
     i18n (1.12.0)
@@ -182,6 +184,7 @@ DEPENDENCIES
   bootsnap
   database_cleaner-active_record
   debug
+  fast_jsonapi
   puma (~> 5.0)
   rails (~> 7.0.4, >= 7.0.4.2)
   rspec-rails (~> 6.0.0)
