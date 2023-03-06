@@ -4,7 +4,7 @@ class Users::ClockOutsController < ApplicationController
 
   def index
     clock_times = ClockTime.where(user_id: @user.id).where.not(clock_out: nil)
-    render json: ClockTimeSerializer.new(clock_times).serialized_json
+    render json: ClockTimeSerializer.new(clock_times).serializable_hash.to_json
   end
 
   def update
@@ -21,7 +21,7 @@ class Users::ClockOutsController < ApplicationController
 
     if last_clock_in.clock_out.blank?
       last_clock_in.update_attribute(:clock_out, clock_time_params[:clock_out])
-      render json: ClockTimeSerializer.new(last_clock_in).serialized_json
+      render json: ClockTimeSerializer.new(last_clock_in).serializable_hash.to_json
     else
       render_api_error('Clock out already exist', 400)
     end

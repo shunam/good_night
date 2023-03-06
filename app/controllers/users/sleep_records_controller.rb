@@ -3,7 +3,7 @@ class Users::SleepRecordsController < ApplicationController
 
   def index
     clock_times = @user.sleep_records
-    render json: SleepRecordSerializer.new(clock_times).serialized_json
+    render json: SleepRecordSerializer.new(clock_times).serializable_hash.to_json
   end
 
   private

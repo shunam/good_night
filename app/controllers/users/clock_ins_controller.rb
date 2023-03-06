@@ -5,7 +5,7 @@ class Users::ClockInsController < ApplicationController
     clock_times = ClockTime.order(created_at: :desc)
                            .where(user_id: @user.id)
                            .where.not(clock_in: nil)
-    render json: ClockTimeSerializer.new(clock_times).serialized_json
+    render json: ClockTimeSerializer.new(clock_times).serializable_hash.to_json
   end
 
   def create
@@ -16,7 +16,7 @@ class Users::ClockInsController < ApplicationController
 
     clock_time = ClockTime.new(clock_in: clock_time_params[:clock_in], user_id: @user.id)
     if clock_time.save
-      render json: ClockTimeSerializer.new(clock_time).serialized_json
+      render json: ClockTimeSerializer.new(clock_time).serializable_hash.to_json
     else
       render_api_error(clock_time.errors.full_messages, 400)
     end

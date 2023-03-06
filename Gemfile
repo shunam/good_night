@@ -53,4 +53,7 @@ group :test do
 end
 
 # Use Fast JSON API to struct the json
-gem 'fast_jsonapi'
+# gem 'fast_jsonapi' NOT MAINTAIN ANYMORE
+# Change to jsonapi-serializer
+gem 'jsonapi-serializer'
+

@@ -1,5 +1,5 @@
 class SleepRecordSerializer
-  include FastJsonapi::ObjectSerializer
+  include JSONAPI::Serializer
   attributes :humanize_total_sleep_length
   belongs_to :user
 end

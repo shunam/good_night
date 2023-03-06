@@ -3,7 +3,7 @@ class Users::FriendshipsController < ApplicationController
 
   def follow
     @user.friends << @friend
-    render json: UserSerializer.new(@user).serialized_json
+    render json: UserSerializer.new(@user).serializable_hash.to_json
   end
 
   def unfollow
@@ -15,7 +15,7 @@ class Users::FriendshipsController < ApplicationController
     end
 
     friendship.destroy
-    render json: UserSerializer.new(@user).serialized_json
+    render json: UserSerializer.new(@user).serializable_hash.to_json
   end
 
   private
