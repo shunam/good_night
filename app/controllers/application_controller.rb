@@ -25,6 +25,10 @@ class ApplicationController < ActionController::API
 
   def generate_links(record, url, current_page)
     options = {links: {}}
+    
+    # Use guard clause so the rest code won't be executed
+    return options if record.total_pages == 1
+
     if current_page.blank? or current_page < 2
       options[:links][:next] = url + '?page=2'
     elsif current_page >= record.total_pages

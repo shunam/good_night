@@ -19,6 +19,7 @@ Things you may want to cover:
 
 * How to run the test suite
   * rspec
+  * see code coverage if folder coverage after you run rspec. (100% coverage)
 
 # API DOC
 
