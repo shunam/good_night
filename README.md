@@ -1,11 +1,6 @@
 
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
 * Ruby version: 3.2.1
 
 * System dependencies:
@@ -20,6 +15,8 @@ Things you may want to cover:
 * How to run the test suite
   * rspec
   * see code coverage if folder coverage after you run rspec. (100% coverage)
+
+* All json responses is compliant with https://jsonapi.org/
 
 # API DOC
 
